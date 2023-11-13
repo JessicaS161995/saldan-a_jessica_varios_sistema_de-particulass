@@ -5,22 +5,18 @@ class Particula {
 		this.isAlive = true;
 		this.side = Math.ceil(random(3, 15));
 		this.color = _color;
+		this.angle = random(TWO_PI); // Ángulo inicial aleatorio
+		this.speed = random(1, 3); // Velocidad aleatoria
 	}
-	update() {
-		this.r = random(100);
 
-		if (this.r < 20) {
-			// hacia arriba
-			this.pos.y -= this.side;
-		} else if (this.r < 40) {
-			// hacia la derecha
-			this.pos.x += this.side;
-		} else if (this.r < 80) {
-			// hacia abajo
-			this.pos.y += this.side;
-		} else {
-			// hacia izquierda
-			this.pos.x -= this.side;
+	update() {
+		// Actualizamos la posición según la dirección y la velocidad
+		this.pos.x += cos(this.angle) * this.speed;
+		this.pos.y += sin(this.angle) * this.speed;
+
+		// Cambiamos la dirección aleatoriamente a intervalos regulares
+		if (frameCount % 60 === 0) {
+			this.angle += random(-PI / 4, PI / 4); // Cambia el ángulo aleatoriamente
 		}
 
 		this.lifespan -= 1;
@@ -29,6 +25,7 @@ class Particula {
 			this.isAlive = false;
 		}
 	}
+
 	display() {
 		fill(this.color);
 		stroke(255);
